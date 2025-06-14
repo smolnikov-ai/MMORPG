@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
+from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 
 from .resources import ADVERTISEMENT_CATEGORY_CHOICES
 
@@ -35,7 +37,7 @@ class Advertisement(models.Model):
     '''
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
-    content = models.TextField()
+    content = RichTextUploadingField(blank=True, null=True)
     category = models.CharField(choices=ADVERTISEMENT_CATEGORY_CHOICES, default="TK")
     creation_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
