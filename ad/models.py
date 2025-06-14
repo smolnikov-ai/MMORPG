@@ -29,7 +29,7 @@ class Advertisement(models.Model):
     Attributes:
         user: OneToOneField User
         title (str): title of the advertisement
-        content (str): content of the advertisement
+        content (RichTextUploadingField): content of the advertisement
         category (str): category of the advertisement
         creation_date: date the advertisement was created
         update_date: date the advertisement was updated

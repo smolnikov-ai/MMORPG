@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'django.contrib.sites',
+    'ad',
     'django.contrib.flatpages', # удалить, не нужно в проекте
 ]
 
@@ -140,4 +141,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Media files
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR /'media'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+CKEDITOR_UPLOAD_PATH = 'uploads/' # относительно директории MEDIA_ROOT
+
+# Настройки внешнего вида и функциональности редактора CKEditor
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',  # стандартный ('basic'), полный ('full')
+        'height': 300,
+        'width': '100%',
+    },
+}

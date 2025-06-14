@@ -19,5 +19,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('pages/', include('django.contrib.flatpages.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),  # Для загрузки файлов
+    path('', include('ad.urls')),
+    path('pages/', include('django.contrib.flatpages.urls')), # Удалить, не нужно для проекта
 ]
