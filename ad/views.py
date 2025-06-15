@@ -12,7 +12,7 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views import View
 from django.views.generic import (ListView, DetailView, CreateView, TemplateView, )
-from .forms import AdvertisementCreateForm
+from .forms import AdvertisementCreateForm, UserRegisterForm
 from .models import Advertisement
 
 
@@ -58,7 +58,7 @@ class UserRegisterView(SuccessMessageMixin, CreateView):
     """
     Представление регистрации на сайте с формой регистрации
     """
-    form_class = UserCreationForm
+    form_class = UserRegisterForm
     success_url = reverse_lazy('home')
     template_name = 'user_register.html'
 
