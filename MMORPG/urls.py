@@ -14,12 +14,22 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from ckeditor_uploader.views import browse, upload
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.contrib.auth.decorators import login_required
+from django.urls import path, include, re_path
+from django.views.decorators.cache import never_cache
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('ckeditor5/', include('django_ckeditor_5.urls')),  # Для загрузки файлов
+    path('ckeditor/', include('ckeditor_uploader.urls')),  # Для загрузки файлов
     path('', include('ad.urls')),
+    re_path(r'^upload/', login_required(upload), name='creditor-upload'),
+    re_path(r'^browse/', login_required(never_cache(browse)), name='creditor-browse'),
     path('pages/', include('django.contrib.flatpages.urls')), # Удалить, не нужно для проекта
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
