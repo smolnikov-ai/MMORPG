@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'ad',
+    'allauth',
+    'allauth.account',
     'django.contrib.flatpages', # удалить, не нужно в проекте
 ]
 
@@ -57,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware', # удалить, не нужно в проекте
 ]
 
@@ -147,6 +150,19 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = True
 SITE_URL = 'http://127.0.0.1:8000'
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+
+# константы библиотеки django-allauth
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email' # определяет метод идентификации пользователя при входе в систему
+ACCOUNT_EMAIL_REQUIRED = True # Определяет необходимость заполнения поля электронной почты при регистрации
+ACCOUNT_UNIQUE_EMAIL = True # Обеспечивает уникальность электронных почтовых адресов среди зарегистрированных пользователей
+ACCOUNT_USERNAME_REQUIRED = False # Устанавливает необязательность ввода имени пользователя при регистрации
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True # Принимает решение, надо ли запрашивать пароль дважды при регистрации для проверки правильности ввода.
+ACCOUNT_SESSION_REMEMBERS = True # Автоматически запоминает сессию пользователя при каждом входе.
+LOGIN_REDIRECT_URL = '/' # Указывает URL, куда перенаправляется пользователь после успешного входа в систему. Здесь задан корень сайта (/).
+LOGOUT_REDIRECT_URL = '/' # Аналогично предыдущей константе, этот путь задаёт адрес перенаправления после выхода пользователя из системы.
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # Отправляет письма в консоль для тестирования
+
 
 AUTH_USER_MODEL = 'ad.User'
 

@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),  # Для загрузки файлов
     path('', include('ad.urls')),
+    path('accounts/', include('allauth.urls')), # регистрация пользователей
     re_path(r'^upload/', login_required(upload), name='creditor-upload'),
     re_path(r'^browse/', login_required(never_cache(browse)), name='creditor-browse'),
     path('pages/', include('django.contrib.flatpages.urls')), # Удалить, не нужно для проекта
