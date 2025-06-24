@@ -6,13 +6,9 @@ from django.urls import reverse
 from .resources import ADVERTISEMENT_CATEGORY_CHOICES
 
 
-def generate_random_code():
-    code = random.randrange(1000, 10000)
-    return code
-
 # расширяем класс AbstractUser полем одноразового кода для аутентификации
 class User(AbstractUser):
-    authentication_code = models.IntegerField(default=generate_random_code())
+    authentication_code = models.IntegerField()
 
     def __str__(self):
         return self.username

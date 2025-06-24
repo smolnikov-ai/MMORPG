@@ -1,7 +1,12 @@
+import random
+
+from allauth.account.forms import SignupForm
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 
+from MMORPG import settings
 from .models import Advertisement, Reply
 
 
@@ -65,3 +70,37 @@ class AdvertisementCreateForm(forms.ModelForm):
             'content',
             'category',
         ]
+
+# функция для генерации authentication_code User
+def generate_random_code():
+    code = random.randrange(1000, 10000)
+    return code
+
+
+class AccountSignupForm(SignupForm):
+
+    def authentication(self, request):
+        if request.method == 'POST':
+
+            # генерируем код аутентификации
+            authentication_code = generate_random_code()
+
+            # перехватываем user через pk, заполняем его полеauthentication_code и делаем user неактивным
+            user_pk = request.POST.get('user_pk')
+            try:
+                user = User.objects.get(pk=user_pk)
+                user.authentication_code = authentication_code
+
+                user.is_active = False
+                user.save()
+
+            email = request.POST.get('email')
+            message = f'To authenticate, enter this code {authentication_code} on the website.'
+
+            send_mail(
+                subject='Confirmation of registration.',
+                message=message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[email],
+                fail_silently=False,
+            )
