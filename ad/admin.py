@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Advertisement, Reply
+from .models import Advertisement, Reply, User
 
 class AdvertisementAdmin(admin.ModelAdmin):
     """
@@ -15,3 +15,4 @@ class AdvertisementAdmin(admin.ModelAdmin):
 admin.site.register(Advertisement, AdvertisementAdmin)
 # Easy registration of the Reply model in the administrative panel
 admin.site.register(Reply)
+admin.site.register(User)

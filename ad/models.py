@@ -8,7 +8,8 @@ from .resources import ADVERTISEMENT_CATEGORY_CHOICES
 
 # расширяем класс AbstractUser полем одноразового кода для аутентификации
 class User(AbstractUser):
-    authentication_code = models.IntegerField()
+    authentication_code = models.IntegerField(null=True, blank=True)
+    #is_active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username

@@ -5,6 +5,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
+from django.http import HttpResponseBadRequest
+from django.shortcuts import redirect, render
 
 from MMORPG import settings
 from .models import Advertisement, Reply
@@ -71,36 +73,66 @@ class AdvertisementCreateForm(forms.ModelForm):
             'category',
         ]
 
-# функция для генерации authentication_code User
-def generate_random_code():
-    code = random.randrange(1000, 10000)
-    return code
-
 
 class AccountSignupForm(SignupForm):
 
-    def authentication(self, request):
-        if request.method == 'POST':
+    def save(self, request):
+        # Получаем экземпляр пользователя, созданный базовой формой
+        user = super().save(request)
 
-            # генерируем код аутентификации
-            authentication_code = generate_random_code()
+        # генерируем код аутентификации
+        authentication_code = random.randrange(1000, 10000)
 
-            # перехватываем user через pk, заполняем его полеauthentication_code и делаем user неактивным
-            user_pk = request.POST.get('user_pk')
-            try:
-                user = User.objects.get(pk=user_pk)
-                user.authentication_code = authentication_code
+        # задаем пользователю authentication_code
+        user.authentication_code = authentication_code
 
-                user.is_active = False
-                user.save()
+        # Устанавливаем пользователя в состояние 'inactive'
+        user.is_active = False
+        user.save()
 
-            email = request.POST.get('email')
-            message = f'To authenticate, enter this code {authentication_code} on the website.'
+        message = f'To authenticate, enter this code {authentication_code} on the website.'
+        email = user.email
 
-            send_mail(
-                subject='Confirmation of registration.',
-                message=message,
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[email],
-                fail_silently=False,
-            )
+        send_mail(
+            subject='Confirmation of registration.',
+            message=message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[email],
+            fail_silently=False,
+        )
+
+        return user
+
+
+    # def authentication(self, request):
+    #     if request.method == 'POST':
+    #
+    #         # генерируем код аутентификации
+    #         authentication_code = generate_random_code()
+    #
+    #         # перехватываем user через pk, заполняем его поле authentication_code и делаем user неактивным
+    #         user_pk = request.POST.get('user_pk')
+    #         if user_pk:
+    #             try:
+    #                 user = User.objects.get(pk=user_pk)
+    #                 user.authentication_code = authentication_code
+    #
+    #                 user.is_active = False
+    #                 user.save()
+    #             except User.DoesNotExist:
+    #                 return HttpResponseBadRequest("Пользователь не найден.")
+    #
+    #
+    #
+    #         email = request.POST.get('email')
+    #         message = f'To authenticate, enter this code {authentication_code} on the website.'
+    #
+    #         send_mail(
+    #             subject='Confirmation of registration.',
+    #             message=message,
+    #             from_email=settings.DEFAULT_FROM_EMAIL,
+    #             recipient_list=[email],
+    #             fail_silently=False,
+    #         )
+    #         return None
+    #     return None
