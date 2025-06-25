@@ -163,7 +163,7 @@ LOGIN_REDIRECT_URL = '/' # Указывает URL, куда перенаправ
 LOGOUT_REDIRECT_URL = '/' # Аналогично предыдущей константе, этот путь задаёт адрес перенаправления после выхода пользователя из системы.
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # Отправляет письма в консоль для тестирования
 
-ACCOUNT_FORMS ={'signup': 'ad.forms.AccountSignupForm'} # форма для подтверждения пользователя генерацией кода
+ACCOUNT_FORMS ={'signup': 'accounts.forms.AccountSignupForm'} # форма для подтверждения пользователя генерацией кода
 
 
 AUTH_USER_MODEL = 'ad.User'
