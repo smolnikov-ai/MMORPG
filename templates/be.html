@@ -1,0 +1,6 @@
+    <form action="{% url 'verify-code' %}" method="post">
+        {% csrf_token %}
+            <label for="user_code">Activation code:</label>
+                <input type="text" id="user_code" name="user_code" placeholder="enter the code" required/>
+                <button type="submit">Check</button>
+    </form>
