@@ -13,7 +13,7 @@ class AdList(ListView):
 class AdDetail(DetailView):
     model = Advertisement
     context_object_name = 'ad'
-    template_name = 'account/base_entrance.html'
+    template_name = 'ad.html'
 
 class AdCreate(LoginRequiredMixin, CreateView):
 #class AdCreate(CreateView):
