@@ -14,21 +14,6 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
-class Reply(models.Model):
-    """
-    Represents the data of the advertisement reply.
-
-    Attributes:
-        user: ForeignKey User
-        content: content of the reply
-        creation_date: date the reply was created
-        update_date: date the reply was updated
-    """
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    content = models.TextField()
-    creation_date = models.DateTimeField(auto_now_add=True)
-    update_date = models.DateTimeField(auto_now=True)
-
 
 class Advertisement(models.Model):
     """
@@ -49,7 +34,6 @@ class Advertisement(models.Model):
     category = models.CharField(choices=ADVERTISEMENT_CATEGORY_CHOICES, default="TK")
     creation_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
-    replies = models.ManyToManyField(Reply, through='AdvertisementReply')
 
     def get_absolute_url(self):
         """
@@ -59,13 +43,18 @@ class Advertisement(models.Model):
         return reverse('ad-detail', kwargs={'pk': self.pk})
 
 
-class AdvertisementReply(models.Model):
+class Reply(models.Model):
     """
-    Represents the data about the advertisement replies.
+    Represents the data of the advertisement reply.
 
     Attributes:
-        advertisement: Advertisement
-        reply: Reply of the advertisement
+        user: ForeignKey User
+        content: content of the reply
+        creation_date: date the reply was created
+        update_date: date the reply was updated
     """
-    advertisement = models.ForeignKey(Advertisement, on_delete=models.CASCADE)
-    reply = models.ForeignKey(Reply, on_delete=models.CASCADE)
+    advertisement = models.ForeignKey(Advertisement, on_delete=models.CASCADE, default=1)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField(null=False)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    update_date = models.DateTimeField(auto_now=True)

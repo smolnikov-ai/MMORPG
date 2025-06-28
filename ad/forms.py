@@ -53,6 +53,9 @@ class ReplyForm(forms.ModelForm):
         fields = [
             'content',
         ]
+        widgets = {
+            'content': forms.Textarea(attrs={'required': True}),
+        }
 
 
 class AdvertisementCreateForm(forms.ModelForm):

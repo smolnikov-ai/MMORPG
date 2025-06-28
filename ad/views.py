@@ -1,6 +1,10 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import (ListView, DetailView, CreateView, )
-from .forms import AdvertisementCreateForm
+from django.contrib import messages
+
+from .forms import AdvertisementCreateForm, ReplyForm
 from .models import Advertisement
 
 class AdList(ListView):
@@ -10,10 +14,29 @@ class AdList(ListView):
     template_name = 'ads.html'
     paginate_by = 10
 
-class AdDetail(DetailView):
-    model = Advertisement
-    context_object_name = 'ad'
-    template_name = 'ad.html'
+def advertisement_detail(request, pk):
+    ad = get_object_or_404(Advertisement, pk=pk)
+
+    if request.method == 'POST':
+        form = ReplyForm(request.POST)
+        if form.is_valid():
+            print('valid form')
+            reply = form.save(commit=False)
+            reply.advertisement = ad
+            reply.user = request.user
+            reply.save()
+            messages.success(request, 'The reply has been created.')
+            return redirect('ad-detail', pk=ad.pk)
+    else:
+        form = ReplyForm()
+
+    replies = ad.reply_set.all()
+    return render(request, 'ad1.html', {
+        'ad': ad,
+        'form': form,
+        'replies': replies,
+    })
+
 
 class AdCreate(LoginRequiredMixin, CreateView):
 #class AdCreate(CreateView):
