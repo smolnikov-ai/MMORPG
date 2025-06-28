@@ -30,7 +30,7 @@ def advertisement_detail(request, pk):
         form = ReplyForm()
 
     replies = ad.reply_set.all()
-    return render(request, 'ad2.html', {
+    return render(request, 'ad.html', {
         'ad': ad,
         'form': form,
         'replies': replies,
