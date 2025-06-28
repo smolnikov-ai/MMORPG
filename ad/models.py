@@ -35,6 +35,9 @@ class Advertisement(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ['-creation_date']
+
     def get_absolute_url(self):
         """
         Returns the absolute URL of the detailed ad viewing page.
@@ -55,6 +58,9 @@ class Reply(models.Model):
     """
     advertisement = models.ForeignKey(Advertisement, on_delete=models.CASCADE, default=1)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    content = models.TextField(null=False)
+    content = models.TextField()
     creation_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-creation_date']

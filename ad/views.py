@@ -20,7 +20,6 @@ def advertisement_detail(request, pk):
     if request.method == 'POST':
         form = ReplyForm(request.POST)
         if form.is_valid():
-            print('valid form')
             reply = form.save(commit=False)
             reply.advertisement = ad
             reply.user = request.user
@@ -31,7 +30,7 @@ def advertisement_detail(request, pk):
         form = ReplyForm()
 
     replies = ad.reply_set.all()
-    return render(request, 'ad1.html', {
+    return render(request, 'ad2.html', {
         'ad': ad,
         'form': form,
         'replies': replies,
