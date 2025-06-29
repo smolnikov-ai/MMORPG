@@ -59,6 +59,7 @@ class Reply(models.Model):
     advertisement = models.ForeignKey(Advertisement, on_delete=models.CASCADE, default=1)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
+    accept = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
 

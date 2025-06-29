@@ -9,4 +9,5 @@ urlpatterns = [
     path('ad/<int:pk>/', advertisement_detail, name='ad-detail'),
     # creating a new advertisement
     path('ad/create/', AdCreate.as_view(), name='ad-create'),
+    #path('acceptreply/', accept_reply, name='accept-reply'),
 ]

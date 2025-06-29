@@ -63,5 +63,16 @@ class AdCreate(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+# def accept_reply(request):
+#     reply = request.reply
+#     reply.accept = True
+#     reply.save()
+#
+#     previous_page = request.META.get('HTTP_REFERER')
+#     #return redirect('ad-detail', pk=request.advertisement.pk)
+#     if previous_page:
+#         return redirect(previous_page)
+#     else:
+#         return redirect('ad-list')
 
 
