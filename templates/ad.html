@@ -49,7 +49,7 @@
 
                 <ul class="s-header__nav">
                     <li><a href="#0">{{ user }}</a></li>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="{% url 'ad-list' %}">All Ad</a></li>
                     <li class="has-children"><a href="#0">Ad Category</a>
                         <ul>
                             <li><a href="#0">Tanks</a></li>
@@ -136,10 +136,12 @@
                                             <div class="comment__meta">
                                                 <div class="comment__time">{{ reply.update_date }}</div>
                                                 <div class="comment__reply">
-                                                    {% if reply.accept %}
-                                                        <a class="comment-reply-link" style="color: green; font-weight: bold;">Reply</a>
-                                                    {% else %}
-                                                        <a class="comment-reply-link">Reply</a>
+                                                    {%  if user == ad.user %}
+                                                        {% if reply.accept %}
+                                                            <a class="comment-reply-link" style="color: green; font-weight: bold;">Accept</a>
+                                                        {% else %}
+                                                            <a class="comment-reply-link" href="{% url 'accept-reply' pk=reply.pk %}">Reply</a>
+                                                        {% endif %}
                                                     {% endif %}
                                                 </div>
                                             </div>
