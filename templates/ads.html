@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load custom_tags %}
 <html class="no-js" lang="en">
 <head>
 
@@ -104,27 +105,49 @@
 
                 <section class="page-content">
 
-                    {% for ad in ads %}
+                    {% if ads %}
+                        {% for ad in ads %}
 
-                        <header class="entry__header">
+                            <header class="entry__header">
 
-                            <h2 class="entry__title h1">
-                                <a title="" href="{% url 'ad-detail' ad.pk %}">{{ ad.title }}</a>
-                            </h2>
+                                <h2 class="entry__title h1">
+                                    <a title="" href="{% url 'ad-detail' ad.pk %}">{{ ad.title }}</a>
+                                </h2>
 
-                            <div class="entry__meta">
-                                <ul>
-                                    <li>{{ ad.creation_date }}</li>
-                                    <li><a title="" rel="category tag">{{ ad.category }}</a></li>
-                                    <li>{{ ad.user }}</li>
-                                </ul>
-                            </div>
-                        </header>
+                                <div class="entry__meta">
+                                    <ul>
+                                        <li>{{ ad.creation_date }}</li>
+                                        <li><a title="" rel="category tag">{{ ad.category }}</a></li>
+                                        <li>{{ ad.user }}</li>
+                                    </ul>
+                                </div>
+                            </header>
 
-                        <p>
-                            {{ ad.content|safe }}
-                        </p>
-                    {% endfor %}
+                            <p>
+                                {{ ad.content|safe }}
+                            </p>
+                        {% endfor %}
+                    {% else %}
+                        <h2>No one has left any ads yet, be the first.</h2>
+                    {% endif %}
+
+                    {% if page_obj.has_previous %}
+                        <a href="?{% url_replace page=1 %}">1</a>
+                        {% if page_obj.previous_page_number != 1 %}
+                            ...
+                            <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+                        {% endif %}
+                    {% endif %}
+
+                    {{ page_obj.number }}
+
+                    {% if page_obj.has_next %}
+                        <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+                        {% if paginator.num_pages != page_obj.next_page_number %}
+                        ...
+                            <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+                        {% endif %}
+                    {% endif %}
 
                 </section> <!-- end page -->
 

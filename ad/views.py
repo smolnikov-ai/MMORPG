@@ -12,7 +12,7 @@ class AdList(ListView):
     ordering = ['-creation_date']
     context_object_name = 'ads'
     template_name = 'ads.html'
-    paginate_by = 10
+    paginate_by = 5
 
 def advertisement_detail(request, pk):
     ad = get_object_or_404(Advertisement, pk=pk)
