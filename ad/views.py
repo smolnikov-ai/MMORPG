@@ -6,6 +6,7 @@ from django.contrib import messages
 
 from .forms import AdvertisementCreateForm, ReplyForm
 from .models import Advertisement, Reply
+from .filter import ReplyFilterSet
 
 
 class AdList(ListView):
@@ -68,12 +69,27 @@ def accept_reply(request, pk):
     reply = Reply.objects.get(pk=pk)
     reply.accept = True
     reply.save()
-
-    previous_page = request.META.get('HTTP_REFERER')
-    #return redirect('ad-detail', pk=request.advertisement.pk)
-    if previous_page:
-        return redirect(previous_page)
-    else:
-        return redirect('ad-list')
+    messages.success(request, 'The reply has been agreed.')
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
+
+class RepliesRequestUser(LoginRequiredMixin, ListView):
+
+    def __init__(self):
+        super().__init__()
+        self.filterset = None
+
+    model = Reply
+    context_object_name = 'replies'
+    template_name = 'reply_ad_user.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(advertisement__user=self.request.user)
+        self.filterset = ReplyFilterSet(self.request.GET, queryset=queryset, request=self.request.user)
+        return self.filterset.qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filterset'] = self.filterset
+        return context

@@ -45,6 +45,9 @@ class Advertisement(models.Model):
         """
         return reverse('ad-detail', kwargs={'pk': self.pk})
 
+    def __str__(self):
+        return self.title
+
 
 class Reply(models.Model):
     """

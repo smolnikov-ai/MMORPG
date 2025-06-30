@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title>Advertisement № {{ ad.pk }}. Author - {{ ad.user }}.</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- CSS
+    ================================================== -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+</head>
+
+<body id="top" class="ss-single">
+
+    <!-- Header
+    ================================================== -->
+    <header class="s-header">
+
+        <div class="row">
+
+            <div class="s-header__content column">
+                <h1 class="s-header__logotext">
+                    <a href="index.html" title="">
+                        <!-- Блок событийных (контекстных) уведомлений -->
+                        {% if messages %}
+                            <div>
+                                <strong>{{ "Messages:" }}</strong>
+                                <ul>
+                                    {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </a>
+                </h1>
+            </div>
+
+        </div> <!-- end row -->
+
+       <nav class="s-header__nav-wrap">
+
+           <div class="row">
+
+                <ul class="s-header__nav">
+                    <li><a href="#0">{{ user }}</a></li>
+                    <li><a href="{% url 'ad-list' %}">All Ad</a></li>
+                    <li class="has-children"><a href="#0">Ad Category</a>
+                        <ul>
+                            <li><a href="#0">Tanks</a></li>
+                            <li><a href="#0">Healers</a></li>
+                            <li><a href="#0">Damage Dealer</a></li>
+                            <li><a href="#0">Merchants</a></li>
+                            <li><a href="#0">Guild Masters</a></li>
+                            <li><a href="#0">Quest Givers</a></li>
+                            <li><a href="#0">Blacksmiths</a></li>
+                            <li><a href="#0">Tanners</a></li>
+                            <li><a href="#0">Potion Makers</a></li>
+                            <li><a href="#0">Spellmasters</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="demo.html">Demo</a></li>
+                    <li><a href="archives.html">Archives</a></li>
+                    <li class="has-children current"><a href="#0">Blog</a>
+                        <ul>
+                            <li><a href="blog.html">Blog Entries</a></li>
+                            <li><a href="single.html">Single Blog</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="page.html">Page</a></li>
+                </ul> <!-- end #nav -->
+
+           </div>
+
+        </nav> <!-- end #nav-wrap -->
+
+    </header> <!-- Header End -->
+
+
+
+    <!-- Content
+    ================================================== -->
+    {% for ad in ads %}
+        <div class="s-content">
+
+            <div class="row">
+
+                <div id="main" class="s-content__main large-8 column">
+
+                    <article class="entry">
+
+                        <header class="entry__header">
+
+                            <h2 class="entry__title h1">
+                                <a title="">{{ ad.title }}</a>
+                            </h2>
+
+                            <div class="entry__meta">
+                                <ul>
+                                    <li>{{ ad.creation_date }}</li>
+                                    <li><a title="" rel="category tag">{{ ad.category }}</a></li>
+                                    <li>{{ ad.user }}</li>
+                                </ul>
+                            </div>
+                        </header> <!-- entry__header -->
+
+                        <div class="entry__content">
+                            <p class="lead">
+                                {{ ad.content|safe }}
+                            </p>
+                        </div> <!-- entry__content -->
+
+                    </article> <!-- end entry -->
+
+                    <div class="comments-wrap">
+
+                        <div id="comments">
+
+                            <h3>{{ ad.reply_set.count }} Reply</h3>
+
+                            <!-- START replylist -->
+                            {% for reply in replies %}
+                                <ol class="commentlist">
+
+                                    <li class="depth-1 comment">
+
+                                        <div class="comment__content">
+
+                                            <div class="comment__info">
+                                                <div class="comment__author">{{ reply.user }}</div>
+
+                                                <div class="comment__meta">
+                                                    <div class="comment__time">{{ reply.update_date }}</div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="comment__text">
+                                                <p>{{ reply.content }}</p>
+                                            </div>
+
+                                        </div>
+
+                                    </li> <!-- end comment level 1 -->
+
+                                </ol>
+                            {% endfor %}
+                            <!-- END commentlist -->
+
+                        </div> <!-- end comments -->
+
+                        <div class="comment-respond">
+
+                            <!-- START respond -->
+                            {% if user.is_authenticated and user.pk != ad.user.pk %}
+                                <form method="POST">
+                                    {% csrf_token %}
+                                        <h3>Add Reply</h3>
+                                                <div><textarea name="content" placeholder="Your reply" style="width: 600px;" required></textarea></div>
+                                                <button type="submit" style="width: 600px;">Add reply</button>
+                                </form>
+                            {% endif %}
+                            <!-- END respond-->
+
+                        </div> <!-- end comment-respond -->
+
+                    </div> <!-- end comments-wrap -->
+
+                </div> <!-- end main -->
+
+            </div> <!-- end row -->
+
+        </div> <!-- end content-wrap -->
+
+    {% endfor %}
+
+    <!-- Footer
+    ================================================== -->
+    <footer class="s-footer">
+
+        <div class="row s-footer__bottom">
+
+            <div class="ss-copyright">
+                <span>© Copyright Keep It Simple 2019</span>
+                <span>Design by <a href="https://www.styleshout.com/">StyleShout</a></span>
+            </div>
+
+        </div> <!-- end footer__bottom -->
+
+        <div class="ss-go-top">
+            <a class="smoothscroll" title="Back to Top" href="#top">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0l8 9h-6v15h-4v-15h-6z"/></svg>
+            </a>
+        </div> <!-- end ss-go-top -->
+
+   </footer> <!-- end Footer-->
+
+</body>
+
+</html>

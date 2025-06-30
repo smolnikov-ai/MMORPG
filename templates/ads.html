@@ -6,7 +6,7 @@
     <!--- basic page needs
     ================================================== -->
     <meta charset="utf-8">
-    <title>Page - Keep It Simple</title>
+    <title>All Advertisements</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -20,31 +20,9 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 
-    <!-- script
-    ================================================== -->
-    <script src="js/modernizr.js"></script>
-    <script defer src="js/fontawesome/all.min.js"></script>
-
-    <!-- favicons
-    ================================================== -->
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="manifest" href="site.webmanifest">
-
 </head>
 
 <body id="top">
-
-    <!-- preloader
-    ================================================== -->
-    <div id="preloader">
-        <div id="loader" class="dots-fade">
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>
 
     <!-- Header
     ================================================== -->
@@ -54,9 +32,18 @@
 
             <div class="s-header__content column">
                 <h1 class="s-header__logotext">
-                    <a href="index.html" title="">Keep It Simple.</a>
+                    <a href="index.html" title="">
+                        <!-- Блок событийных (контекстных) уведомлений -->
+                        {% if messages %}
+                            <div>
+                                <strong>{{ "Messages:" }}</strong>
+                                <ul>
+                                    {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </a>
                 </h1>
-                <p class="s-header__tagline">Put your awesome tagline here.</p>
             </div>
 
         </div> <!-- end row -->
@@ -66,23 +53,17 @@
            <div class="row">
 
                 <ul class="s-header__nav">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="has-children"><a href="#0">Dropdown</a>
+                    <li><a>{{ user }}</a>
                         <ul>
-                            <li><a href="#0">Submenu 01</a></li>
-                            <li><a href="#0">Submenu 02</a></li>
-                            <li><a href="#0">Submenu 03</a></li>
+                            <li><a href="/account/logout/">LogOut</a></li>
+                            <li><a href="/account/signup/">SignUp</a></li>
+                            <li><a href="/account/login/">LogIn</a></li>
                         </ul>
                     </li>
-                    <li><a href="demo.html">Demo</a></li>	
-                    <li><a href="archives.html">Archives</a></li>
-                    <li class="has-children"><a href="#0">Blog</a>
-                        <ul>
-                            <li><a href="blog.html">Blog Entries</a></li>
-                            <li><a href="single.html">Single Blog</a></li>
-                        </ul>
-                    </li>
-                    <li class="current"><a href="page.html">Page</a></li>
+                    <li><a href="#0">Ad</a></li>
+                    <li class="current"><a href="{% url 'ad-list' %}">All Ad</a></li>
+                    <li><a href="{% url 'ad-create' %}">Ad Create</a></li>
+                    <li><a href="{% url 'reply-ad-user' %}">Reply for you </a></li>
                 </ul> <!-- end #nav -->
 
            </div> 

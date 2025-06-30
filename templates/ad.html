@@ -27,7 +27,7 @@
 
             <div class="s-header__content column">
                 <h1 class="s-header__logotext">
-                    <a href="index.html" title="">
+
                         <!-- Блок событийных (контекстных) уведомлений -->
                         {% if messages %}
                             <div>
@@ -37,7 +37,6 @@
                                 </ul>
                             </div>
                         {% endif %}
-                    </a>
                 </h1>
             </div>
 
@@ -48,31 +47,17 @@
            <div class="row">
 
                 <ul class="s-header__nav">
-                    <li><a href="#0">{{ user }}</a></li>
+                    <li><a>{{ user }}</a>
+                        <ul>
+                            <li><a href="/account/logout/">LogOut</a></li>
+                            <li><a href="/account/signup/">SignUp</a></li>
+                            <li><a href="/account/login/">LogIn</a></li>
+                        </ul>
+                    </li>
+                    <li class="current"><a href="#0">Ad</a></li>
                     <li><a href="{% url 'ad-list' %}">All Ad</a></li>
-                    <li class="has-children"><a href="#0">Ad Category</a>
-                        <ul>
-                            <li><a href="#0">Tanks</a></li>
-                            <li><a href="#0">Healers</a></li>
-                            <li><a href="#0">Damage Dealer</a></li>
-                            <li><a href="#0">Merchants</a></li>
-                            <li><a href="#0">Guild Masters</a></li>
-                            <li><a href="#0">Quest Givers</a></li>
-                            <li><a href="#0">Blacksmiths</a></li>
-                            <li><a href="#0">Tanners</a></li>
-                            <li><a href="#0">Potion Makers</a></li>
-                            <li><a href="#0">Spellmasters</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="demo.html">Demo</a></li>	
-                    <li><a href="archives.html">Archives</a></li>
-                    <li class="has-children current"><a href="#0">Blog</a>
-                        <ul>
-                            <li><a href="blog.html">Blog Entries</a></li>
-                            <li><a href="single.html">Single Blog</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="page.html">Page</a></li>
+                    <li><a href="{% url 'ad-create' %}">Ad Create</a></li>
+                    <li><a href="{% url 'reply-ad-user' %}">Reply for you </a></li>
                 </ul> <!-- end #nav -->
 
            </div> 
@@ -138,9 +123,9 @@
                                                 <div class="comment__reply">
                                                     {%  if user == ad.user %}
                                                         {% if reply.accept %}
-                                                            <a class="comment-reply-link" style="color: green; font-weight: bold;">Accept</a>
+                                                            <a style="color: green; font-weight: bold;">Accept</a>
                                                         {% else %}
-                                                            <a class="comment-reply-link" href="{% url 'accept-reply' pk=reply.pk %}">Reply</a>
+                                                            <button><a href="{% url 'accept-reply' pk=reply.pk %}">Confirm</a></button>
                                                         {% endif %}
                                                     {% endif %}
                                                 </div>

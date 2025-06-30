@@ -26,11 +26,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),  # Для загрузки файлов
     path('', include('ad.urls')),
-    path('account/', include('allauth.urls')), # регистрация пользователей
+    path('account/', include('allauth.urls'), name='account'), # регистрация пользователей
     path('accounts/', include('accounts.urls')),
     re_path(r'^upload/', login_required(upload), name='creditor-upload'),
     re_path(r'^browse/', login_required(never_cache(browse)), name='creditor-browse'),
-    path('pages/', include('django.contrib.flatpages.urls')), # Удалить, не нужно для проекта
 ]
 
 if settings.DEBUG:
