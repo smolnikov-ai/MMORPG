@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title>Advertisement Create</title>
+
+    <!-- CSS
+    ================================================== -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+</head>
+
+<body id="top">
+
+    <!-- Header
+    ================================================== -->
+    <header class="s-header">
+
+        <div class="row">
+
+            <div class="s-header__content column">
+                {% if messages %}
+                    <div class="alert-box alert-box--info hideit">
+
+                        <div>
+                            <strong>{{ "Messages:" }}</strong>
+                            <ul>
+                                {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+                            </ul>
+                        </div>
+
+                    </div>
+                {% endif %}
+            </div>
+        </div> <!-- end row -->
+
+       <nav class="s-header__nav-wrap">
+
+           <div class="row">
+
+                <ul class="s-header__nav">
+                    <li><a>{{ user }}</a>
+                        <ul>
+                            <li><a href="/account/logout/">LogOut</a></li>
+                            <li><a href="/account/signup/">SignUp</a></li>
+                            <li><a href="/account/login/">LogIn</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#0">Ad</a></li>
+                    <li><a href="{% url 'ad-list' %}">All Ad</a></li>
+                    <li class="current"><a href="{% url 'ad-create' %}">Ad Create</a></li>
+                    <li><a href="{% url 'reply-ad-user' %}">Reply for you </a></li>
+                </ul> <!-- end #nav -->
+
+           </div> 
+
+        </nav> <!-- end #nav-wrap -->
+
+    </header> <!-- Header End -->
+
+
+
+    <!-- Content
+    ================================================== -->
+    <div class="s-content">
+
+        <div class="row">
+
+            <div id="main" class="s-content__main large-8 column">
+
+                <article class="entry">
+
+                    <header class="entry__header">
+
+                        <h2 class="entry__title h1">
+                            {{ user }}, edit your own advertisement
+                        </h2>
+                     
+                    </header>
+                        {{ form.media }}
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <input type="submit" value="Save" />
+                    </form>
+
+                </article> <!-- end entry -->
+
+           </div> <!-- end main -->
+
+       </div> <!-- end row -->
+
+   </div> <!-- end content-wrap -->
+
+    <!-- Footer
+    ================================================== -->
+    <footer class="s-footer">
+
+        <div class="row s-footer__bottom">
+
+            <div class="ss-copyright">
+                <span>© Copyright Keep It Simple 2019</span>
+                <span>Design by <a href="https://www.styleshout.com/">StyleShout</a></span>
+            </div>
+
+        </div> <!-- end footer__bottom -->
+
+    </footer> <!-- end Footer-->
+
+</body>
+
+</html>

@@ -100,6 +100,9 @@
                     </div> <!-- entry__content -->
 
                 </article> <!-- end entry -->
+                {% if user == ad.user %}
+                    <button><a href="{% url 'ad-edit' pk=ad.pk %}">Edit Advertisement</a></button>
+                {% endif %}
 
                 <div class="comments-wrap">
 
@@ -136,6 +139,7 @@
                                                     <button><a href="{% url 'accept-reply' pk=reply.pk %}">Confirm</a></button>
                                                 {% endif %}
                                             {% endif %}
+
                                         </div>
 
                                     </div>
@@ -144,6 +148,7 @@
 
                             </ol>
                         {% endfor %}
+
                         <!-- END commentlist -->
 
                     </div> <!-- end comments -->

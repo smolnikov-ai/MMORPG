@@ -66,3 +66,12 @@ class AdvertisementCreateForm(forms.ModelForm):
             'content',
             'category',
         ]
+
+class AdvertisementEditForm(forms.ModelForm):
+    class Meta:
+        model = Advertisement
+        fields = [
+            'title',
+            'content',
+            'category',
+        ]

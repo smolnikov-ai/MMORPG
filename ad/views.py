@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import (ListView, DetailView, CreateView, )
+from django.urls import reverse_lazy
+from django.views.generic import (ListView, DetailView, CreateView, UpdateView, )
 from django.contrib import messages
 
-from .forms import AdvertisementCreateForm, ReplyForm
+from .forms import AdvertisementCreateForm, ReplyForm, AdvertisementEditForm
 from .models import Advertisement, Reply
 from .filter import ReplyFilterSet
 
@@ -64,6 +65,18 @@ class AdCreate(LoginRequiredMixin, CreateView):
         """
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+class AdEdit(LoginRequiredMixin, UpdateView):
+    model = Advertisement
+    template_name = 'ad_edit.html'
+    form_class = AdvertisementEditForm
+
+    def get_object(self, queryset=None):
+        return self.model.objects.get(pk=self.kwargs['pk'])
+
+    def get_success_url(self):
+        return reverse_lazy('ad-detail', kwargs={'pk': self.object.pk})
+
 
 def accept_reply(request, pk):
     reply = Reply.objects.get(pk=pk)
