@@ -100,15 +100,7 @@
 
                                                 <div class="comment__meta">
                                                     <div class="comment__time">{{ reply.update_date }}</div>
-                                                    <div class="comment__reply">
 
-                                                            {% if reply.accept %}
-                                                                <a class="comment-reply-link" style="color: green; font-weight: bold;">Accept</a>
-                                                            {% else %}
-                                                                <button><a class="comment-reply-link" href="{% url 'accept-reply' pk=reply.pk %}">Confirm</a></button>
-                                                            {% endif %}
-
-                                                    </div>
                                                 </div>
                                             </div>
 
@@ -116,6 +108,15 @@
                                                 <p>{{ reply.content }}</p>
                                             </div>
 
+                                            <div class="comment__reply">
+                                                <button><a href="{% url 'delete-reply' pk=reply.pk %}">Delete</a></button>
+                                                {% if reply.accept %}
+                                                    <a class="comment-reply-link" style="color: green; font-weight: bold;">Accept</a>
+                                                {% else %}
+                                                    <button><a class="comment-reply-link" href="{% url 'accept-reply' pk=reply.pk %}">Confirm</a></button>
+                                                {% endif %}
+
+                                            </div>
                                         </div>
 
                                     </li> <!-- end comment level 1 -->

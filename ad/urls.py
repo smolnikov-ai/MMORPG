@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import (AdList, AdCreate, advertisement_detail, accept_reply, RepliesRequestUser, )
+from .views import (AdList, AdCreate, advertisement_detail, accept_reply, delete_reply, RepliesRequestUser, )
 
 
 urlpatterns = [
@@ -10,5 +10,6 @@ urlpatterns = [
     # creating a new advertisement
     path('ad/create/', AdCreate.as_view(), name='ad-create'),
     path('reply/<int:pk>/', accept_reply, name='accept-reply'),
+    path('reply/delete/<int:pk>/', delete_reply, name='delete-reply'),
     path('ad/user/', RepliesRequestUser.as_view(), name='reply-ad-user'),
 ]
