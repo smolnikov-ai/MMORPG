@@ -127,7 +127,7 @@
                                             <p>{{ reply.content }}</p>
                                         </div>
 
-                                        <div class="comment__reply">
+                                        <div>
                                             {%  if user == ad.user %}
                                                 <button><a href="{% url 'delete-reply' pk=reply.pk %}">Delete</a></button>
                                                 {% if reply.accept %}

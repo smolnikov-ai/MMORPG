@@ -113,7 +113,7 @@
                                                 {% if reply.accept %}
                                                     <a class="comment-reply-link" style="color: green; font-weight: bold;">Accept</a>
                                                 {% else %}
-                                                    <button><a class="comment-reply-link" href="{% url 'accept-reply' pk=reply.pk %}">Confirm</a></button>
+                                                    <button><a href="{% url 'accept-reply' pk=reply.pk %}">Confirm</a></button>
                                                 {% endif %}
 
                                             </div>

@@ -112,24 +112,25 @@
                         <h2>No one has left any ads yet, be the first.</h2>
                     {% endif %}
 
+                    <nav class="pgn">
                     {% if page_obj.has_previous %}
-                        <a href="?{% url_replace page=1 %}">1</a>
+                        <a class="pgn__num" href="?{% url_replace page=1 %}">1</a>
                         {% if page_obj.previous_page_number != 1 %}
-                            ...
-                            <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+                            <span class="pgn__num dots">…</span>
+                            <a class="pgn__num" href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
                         {% endif %}
                     {% endif %}
 
-                    {{ page_obj.number }}
+                    <span class="pgn__num current">{{ page_obj.number }}</span>
 
                     {% if page_obj.has_next %}
-                        <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+                        <a class="pgn__num" href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
                         {% if paginator.num_pages != page_obj.next_page_number %}
                         ...
-                            <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+                            <a class="pgn__num" href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
                         {% endif %}
                     {% endif %}
-
+                    </nav>
                 </section> <!-- end page -->
 
            </div> <!-- end main -->
