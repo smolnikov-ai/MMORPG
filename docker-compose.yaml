@@ -1,0 +1,54 @@
+services:
+  mmorpg:
+    env_file: .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${DOCKER_EXPOSE_PORT:-8000}:${DJANGO_PORT:-8000}"
+    restart: unless-stopped
+    command: "python manage.py runserver 0.0.0.0:${DJANGO_PORT:-8000}"
+    networks:
+      mmorpg-backend:
+  redis:
+    image: redis:8.0.2
+    env_file: .env
+    restart: unless-stopped
+    volumes:
+      - ./.docker/redis-data:/data
+    ports:
+      - ${REDIS_PORT}
+    networks:
+      mmorpg-backend:
+  celery-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    image: celery:4.0.2
+    command: "celery -A MMORPG worker -l INFO"
+    depends_on:
+      - redis
+    environment:
+      CELERY_BROKEN_URL: redis://${REDIS_HOST}:${REDIS_PORT}/
+    restart: always
+    networks:
+      mmorpg-backend:
+  celery-beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    image: celery:4.0.2
+    command: "celery -A MMORPG beat -l INFO"
+    depends_on:
+      - redis
+    environment:
+      CELERY_BROKEN_URL: redis://${REDIS_HOST}:${REDIS_PORT}/
+      CELERY_BROKEN_BACKEND: redis://${REDIS_HOST}:${REDIS_PORT}/
+    restart: always
+    networks:
+      mmorpg-backend:
+
+networks:
+  mmorpg-backend:

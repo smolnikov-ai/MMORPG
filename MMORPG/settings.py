@@ -160,7 +160,7 @@ ACCOUNT_SESSION_REMEMBERS = True # Автоматически запоминае
 LOGIN_REDIRECT_URL = '/ad/' # Указывает URL, куда перенаправляется пользователь после успешного входа в систему. Здесь задан корень сайта (/).
 LOGOUT_REDIRECT_URL = '/account/login/' # Аналогично предыдущей константе, этот путь задаёт адрес перенаправления после выхода пользователя из системы.
 SIGNUP_REDIRECT_URL = '/account/login/'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # Отправляет письма в консоль для тестирования
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # Отправляет письма в консоль для тестирования
 
 ACCOUNT_FORMS ={'signup': 'accounts.forms.AccountSignupForm'} # форма для подтверждения пользователя генерацией кода
 
@@ -170,6 +170,26 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 AUTH_USER_MODEL = 'ad.User'
+
+# celery & redis
+
+# формат даты, которую будет воспринимать наш задачник (вспоминаем модуль по фильтрам)
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+
+# если задача не выполняется за 25 секунд, то она автоматически снимается, можете поставить время побольше, но как правило, это сильно бьёт по производительности сервера
+APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
+
+# настройки для Celery и Redis
+# указывает на URL брокера сообщений (Redis). По умолчанию он находится на порту 6379
+CELERY_BROKER_URL = 'redis://localhost:6379'
+# указывает на хранилище результатов выполнения задач
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+# допустимый формат данных
+CELERY_ACCEPT_CONTENT = ['application/json']
+# метод сериализации задач
+CELERY_TASK_SERIALIZER = 'json'
+# метод сериализации результатов
+CELERY_RESULT_SERIALIZER = 'json'
 
 # Media files
 

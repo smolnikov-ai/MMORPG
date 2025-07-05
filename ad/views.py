@@ -8,6 +8,7 @@ from django.contrib import messages
 from .forms import AdvertisementCreateForm, ReplyForm, AdvertisementEditForm
 from .models import Advertisement, Reply
 from .filter import ReplyFilterSet
+from .tasks import notify_reply_added, notify_reply_accepted, notify_reply_delete, send_weekly
 
 
 class AdList(ListView):
@@ -28,6 +29,7 @@ def advertisement_detail(request, pk):
             reply.user = request.user
             reply.save()
             messages.success(request, 'The reply has been created.')
+            notify_reply_added(reply.pk)
             return redirect('ad-detail', pk=ad.pk)
     else:
         form = ReplyForm()
@@ -83,10 +85,13 @@ def accept_reply(request, pk):
     reply.accept = True
     reply.save()
     messages.success(request, 'The reply has been agreed.')
+    notify_reply_accepted(pk)
+    send_weekly()
     return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_reply(request, pk):
     reply = Reply.objects.get(pk=pk)
+    notify_reply_delete(pk)
     reply.delete()
     messages.success(request, 'The reply has been deleted.')
     return redirect(request.META.get('HTTP_REFERER'))
