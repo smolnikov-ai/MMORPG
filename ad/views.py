@@ -86,7 +86,6 @@ def accept_reply(request, pk):
     reply.save()
     messages.success(request, 'The reply has been agreed.')
     notify_reply_accepted(pk)
-    send_weekly()
     return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_reply(request, pk):

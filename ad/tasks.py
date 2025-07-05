@@ -13,7 +13,8 @@ def notify_reply_added(reply_pk):
     reply = Reply.objects.get(pk=reply_pk)
     ad = reply.advertisement
     subject = f'Reply of the advertisement {ad}'
-    message = f'New reply from {reply.user}\\n{reply.content}'
+    message = (f'New reply from {reply.user}\n'
+               f'{reply.content}')
     from_email = settings.DEFAULT_FROM_EMAIL
     recipient_list = [ad.user.email]
     send_mail(subject, message, from_email, recipient_list, fail_silently=True)
@@ -23,7 +24,8 @@ def notify_reply_accepted(reply_pk):
     reply = Reply.objects.get(pk=reply_pk)
     ad = reply.advertisement
     subject = f'Reply of the advertisement {ad}'
-    message = f'Your reply has been accepted\\n{reply.content}'
+    message = (f'Your reply has been accepted\n'
+               f'{reply.content}')
     from_email = settings.DEFAULT_FROM_EMAIL
     recipient_list = [reply.user.email]
     send_mail(subject, message, from_email, recipient_list, fail_silently=True)
@@ -33,7 +35,8 @@ def notify_reply_delete(reply_pk):
     reply = Reply.objects.get(pk=reply_pk)
     ad = reply.advertisement
     subject = f'Reply of the advertisement {ad}'
-    message = f'Your reply has been deleted\\n{reply.content}'
+    message = (f'Your reply has been deleted\n'
+               f'{reply.content}')
     from_email = settings.DEFAULT_FROM_EMAIL
     recipient_list = [reply.user.email]
     send_mail(subject, message, from_email, recipient_list, fail_silently=True)
@@ -42,7 +45,7 @@ def notify_reply_delete(reply_pk):
 def send_weekly():
     today = datetime.datetime.now()
     last_week = today - datetime.timedelta(weeks=1)
-    ads = Advertisement.objects.filter(creqtion_date__gte=last_week)
+    ads = Advertisement.objects.filter(creation_date__gte=last_week)
     users = User.objects.filter(is_active=True)
 
     for user in users:
